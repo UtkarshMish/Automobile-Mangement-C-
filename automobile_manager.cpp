@@ -161,8 +161,6 @@ void Automobile ::output()
   istream &flush();
   fstream file;
   string line;
-  for (int i = 0; i < strlen(buffer); i++)
-    buffer[i] = 0;
   file.open("automobile.txt", ios::in);
   file.seekg(0, ios::beg);
   if (file.is_open())
@@ -170,7 +168,7 @@ void Automobile ::output()
     while (getline(file, line))
     {
 
-      for (int i = 0; i < (int)sizeof(line); i++)
+      for (int i = 0; i < line.length(); i++)
         buffer[i] = line[i];
       unpack();
       cout << "----------------------------------" << endl;
