@@ -144,10 +144,11 @@ void Automobile::Delete()
 
 void Automobile ::input()
 {
-  fflush(stdin);
+
   cout << "Enter the Automobile ID:" << endl;
-  gets(automobile_id);
+  cin >> automobile_id;
   cout << "Enter the Automobile Name:" << endl;
+  fflush(stdin);
   gets(automobile_name);
   cout << "Enter Number of Automobile in Stocks:" << endl;
   cin >> in_stock;
@@ -161,6 +162,7 @@ void Automobile ::output()
   istream &flush();
   fstream file;
   string line;
+  system("CLS");
   file.open("automobile.txt", ios::in);
   file.seekg(0, ios::beg);
   if (file.is_open())
@@ -345,13 +347,14 @@ string Automobile ::search(char key[], int mode)
   {
     while (getline(file, line))
     {
-      for (int i = 0; i < (int)sizeof(line); i++)
+      for (int i = 0; i < line.length(); i++)
         buffer[i] = line[i];
       unpack();
       if (strcmp(automobile_id, key) == 0)
       {
         if (mode == 0)
         {
+          system("CLS");
           cout << "Automobile Present!!! " << endl;
           cout << "----------------------------------" << endl;
           cout << "Automobile ID:" << automobile_id << endl;
@@ -368,7 +371,7 @@ string Automobile ::search(char key[], int mode)
         }
         else if (mode == 1)
         {
-          long int cost, charges, total;
+          unsigned long int cost, charges, total;
           stringstream val1(price);
           stringstream val2(service_charge);
           val1 >> cost;
@@ -463,8 +466,9 @@ void Customer ::output()
   fstream file;
   string line, final_cost;
   Automobile obj;
-  long int total_cost = 0, qntity = 0;
+  unsigned long int total_cost = 0, qntity = 0;
   int i = 0;
+  system("CLS");
   file.open("customer.txt", ios::in);
   if (file.is_open())
   {
@@ -553,11 +557,12 @@ int Customer ::search(char key[])
 {
   Automobile obj;
   string final_cost;
-  long int total_cost, qntity;
+  unsigned long int total_cost, qntity;
   istream &flush();
   fstream file;
   string line;
   int found = 0;
+  system("CLS");
   file.open("customer.txt", ios::in);
   if (file.is_open() && !found)
   {
@@ -720,7 +725,6 @@ void Customer ::modify(int mode = 0)
             break;
           default:
             cout << "Invalid input given";
-            exit(0);
           }
         }
         else if (mode == 1)
@@ -754,6 +758,7 @@ void automobile_menu()
 {
   int choice = 0;
   Automobile ob;
+  system("CLS");
   while (choice < 6)
   {
     char key[30];
@@ -800,6 +805,7 @@ void customer_menu()
   int choice = 0;
   int flag = 0;
   Customer custmer;
+  system("CLS");
   while (choice < 6)
   {
     cout << "1> Insert A Customer Info " << endl;
@@ -861,6 +867,7 @@ main()
     }
     system("CLS");
   }
+  cout << "############## END of the Automobile Management System! Press any key to exit..... ############" << endl;
   getch();
   return 0;
 }
