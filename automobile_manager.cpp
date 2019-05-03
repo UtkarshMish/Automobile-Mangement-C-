@@ -53,7 +53,7 @@ void delete_record_customer()
   file.seekg(0, ios::beg);
   while (getline(file, line))
   {
-    for (i = 0; i < (int)sizeof(line); i++)
+    for (i = 0; i < line.length(); i++)
     {
       if (line[i] == '$')
         flag = 1;
@@ -370,7 +370,7 @@ string Automobile ::search(char key[], int mode)
         }
         else if (mode == 1)
         {
-          int cost, charges, total;
+          long int cost, charges, total;
           stringstream val1(price);
           stringstream val2(service_charge);
           val1 >> cost;
@@ -465,7 +465,7 @@ void Customer ::output()
   fstream file;
   string line, final_cost;
   Automobile obj;
-  int total_cost = 0, qntity = 0;
+  long int total_cost = 0, qntity = 0;
   int i = 0;
   file.open("customer.txt", ios::in);
   if (file.is_open())
@@ -555,13 +555,13 @@ int Customer ::search(char key[])
 {
   Automobile obj;
   string final_cost;
-  int total_cost, qntity;
+  long int total_cost, qntity;
   istream &flush();
   fstream file;
   string line;
   int found = 0;
   file.open("customer.txt", ios::in);
-  if (file.is_open())
+  if (file.is_open() && !found)
   {
     while (getline(file, line))
     {
@@ -614,7 +614,7 @@ void Customer ::modify(int mode = 0)
   fstream file;
   string line;
   string in_stock;
-
+  istream &flush();
   char del = '$';
   char key[30];
 
@@ -627,7 +627,9 @@ void Customer ::modify(int mode = 0)
   {
     while (!file.eof() && !found)
     {
-      file.read(buffer, '#');
+      getline(file, line);
+      for (int i = 0; i < line.length(); i++)
+        buffer[i] = line[i];
       len = strlen(buffer);
       unpack();
 
@@ -666,6 +668,7 @@ void Customer ::modify(int mode = 0)
 
             if (in_stock == "Details not present")
             {
+              file.close();
               return;
             }
             else
@@ -677,6 +680,7 @@ void Customer ::modify(int mode = 0)
               if (qntity > stocks)
               {
                 cout << "Enough Stock not available, Available stock: " << in_stock << endl;
+                file.close();
                 return;
               }
               else
