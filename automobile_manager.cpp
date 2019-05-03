@@ -565,7 +565,6 @@ void Customer ::modify(int mode = 0)
 {
   Automobile obj;
   int stocks, qntity;
-  istream &flush();
   fstream file;
   string line;
   string in_stock;
@@ -582,13 +581,13 @@ void Customer ::modify(int mode = 0)
   {
     while (!file.eof() && !found)
     {
-
-      file.getline(buffer, '#');
+      file.read(buffer, '#');
       len = strlen(buffer);
       unpack();
 
       if (strcmp(customer_id, key) == 0)
       {
+
         int pos = file.tellg();
         pos = pos - len - 1;
         file.seekg(pos, ios::beg);
@@ -618,13 +617,9 @@ void Customer ::modify(int mode = 0)
             cout << "Enter the quantity of Automobile: ";
             cin >> quantity;
             in_stock = check(obj, automobile_id);
+
             if (in_stock == "Details not present")
             {
-              return;
-            }
-            if (quantity > in_stock)
-            {
-              cout << "Enough Stock not available, Available stock: " << in_stock << endl;
               return;
             }
             else
@@ -633,7 +628,16 @@ void Customer ::modify(int mode = 0)
               stringstream val2(quantity);
               val1 >> stocks;
               val2 >> qntity;
-              change_Stock(obj, stocks, qntity, automobile_id);
+              if (qntity > stocks)
+              {
+                cout << "Enough Stock not available, Available stock: " << in_stock << endl;
+                return;
+              }
+              else
+              {
+
+                change_Stock(obj, stocks, qntity, automobile_id);
+              }
             }
             break;
           case 4:
@@ -642,12 +646,7 @@ void Customer ::modify(int mode = 0)
             in_stock = check(obj, automobile_id);
             if (in_stock == "Details not present")
             {
-
-              return;
-            }
-            if (quantity > in_stock)
-            {
-              cout << "Enough Stock not available, Available stock: " << in_stock << endl;
+              file.close();
               return;
             }
             else
@@ -656,9 +655,18 @@ void Customer ::modify(int mode = 0)
               stringstream val2(quantity);
               val1 >> stocks;
               val2 >> qntity;
-              change_Stock(obj, stocks, qntity, automobile_id);
-            }
+              if (qntity > stocks)
+              {
+                cout << "Enough Stock not available, Available stock: " << in_stock << endl;
+                file.close();
+                return;
+              }
+              else
+              {
 
+                change_Stock(obj, stocks, qntity, automobile_id);
+              }
+            }
             break;
           default:
             cout << "Invalid input given";
@@ -683,7 +691,11 @@ void Customer ::modify(int mode = 0)
     return;
   }
   if (!found)
+  {
     cout << "\n The Id does not exist !! TRY AGAIN !!" << endl;
+    file.close();
+    return;
+  }
   file.close();
   delete_record_customer();
 }
