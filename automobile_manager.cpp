@@ -97,6 +97,7 @@ public:
   void Write();
   friend string check(Automobile obj, char key[]);
   friend string auto_calculate(Automobile obj1, char key[]);
+  friend string final_calculate(Automobile obj1, char key[]);
   friend void change_Stock(Automobile obj, int stocks, int qntity, char key[]);
 };
 class Customer
@@ -125,11 +126,15 @@ public:
   }
   string auto_calculate(Automobile obj1, char key[])
   {
-    return obj1.search(key, 1);
+    return obj1.search(key, 3);
   }
   friend void change_Stock(Automobile obj, int stocks, int qntity, char key[])
   {
     obj.modify(stocks, qntity, 2, key);
+  }
+  string final_calculate(Automobile obj1, char key[])
+  {
+    return obj1.search(key, 1);
   }
 };
 void Automobile::Delete()
@@ -363,6 +368,20 @@ string Automobile ::search(char key[], int mode)
         {
           return in_stock;
         }
+        else if (mode == 1)
+        {
+          int cost, charges, total;
+          stringstream val1(price);
+          stringstream val2(service_charge);
+          val1 >> cost;
+          val2 >> charges;
+          total = cost + charges;
+          stringstream ss;
+          ss << total;
+          string str = ss.str();
+
+          return str;
+        }
         else
         {
           return automobile_name;
@@ -444,8 +463,9 @@ void Customer ::output()
 {
   istream &flush();
   fstream file;
-  string line;
+  string line, final_cost;
   Automobile obj;
+  int total_cost = 0, qntity = 0;
   int i = 0;
   file.open("customer.txt", ios::in);
   if (file.is_open())
@@ -457,6 +477,16 @@ void Customer ::output()
         buffer[i] = line[i];
       unpack();
       automobile_orders = auto_calculate(obj, automobile_id);
+      final_cost = final_calculate(obj, automobile_id);
+      if (final_cost != "\0")
+      {
+        stringstream val1(final_cost);
+        stringstream val2(quantity);
+        val1 >> total_cost;
+        val2 >> qntity;
+        total_cost = total_cost * qntity;
+      }
+
       cout << "----------------------------------" << endl;
       cout << "Customer ID: " << customer_id << endl;
       cout << "Customer Name: " << customer_name << endl;
@@ -464,6 +494,7 @@ void Customer ::output()
       cout << "Quantity: " << quantity << endl;
       cout << "Automobile booked: " << automobile_orders << endl;
       cout << "Ordered Date:" << ordered_date << endl;
+      cout << "Total Cost: " << total_cost << " Rs" << endl;
       cout << "----------------------------------" << endl;
     }
   }
@@ -522,6 +553,9 @@ void Customer ::unpack()
 }
 int Customer ::search(char key[])
 {
+  Automobile obj;
+  string final_cost;
+  int total_cost, qntity;
   istream &flush();
   fstream file;
   string line;
@@ -531,9 +565,20 @@ int Customer ::search(char key[])
   {
     while (getline(file, line))
     {
-      for (int i = 0; i < (int)sizeof(line); i++)
+      for (int i = 0; i < line.length(); i++)
         buffer[i] = line[i];
       unpack();
+      automobile_orders = auto_calculate(obj, automobile_id);
+      final_cost = final_calculate(obj, automobile_id);
+      if (final_cost != "\0")
+      {
+        stringstream val1(final_cost);
+        stringstream val2(quantity);
+        val1 >> total_cost;
+        val2 >> qntity;
+        total_cost = total_cost * qntity;
+      }
+
       if (strcmp(customer_id, key) == 0)
       {
 
@@ -545,6 +590,7 @@ int Customer ::search(char key[])
         cout << "Quantity: " << quantity << endl;
         cout << "Automobile booked: " << automobile_orders << endl;
         cout << "Ordered Date:" << ordered_date << endl;
+        cout << "Total Cost : " << total_cost << " Rs" << endl;
         cout << "----------------------------------" << endl;
         found = 1;
       }
