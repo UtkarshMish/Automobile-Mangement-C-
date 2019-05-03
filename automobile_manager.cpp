@@ -614,6 +614,7 @@ void Customer ::modify(int mode = 0)
   fstream file;
   string line;
   string in_stock;
+  int i = 0;
   istream &flush();
   char del = '$';
   char key[30];
@@ -623,13 +624,15 @@ void Customer ::modify(int mode = 0)
   cin >> key;
 
   file.open("customer.txt", ios::in | ios ::out);
+  file.seekg(0, ios::beg);
   if (file.is_open())
   {
-    while (!file.eof() && !found)
+    while (getline(file, line) && !found)
     {
-      getline(file, line);
-      for (int i = 0; i < line.length(); i++)
+
+      for (i = 0; i < line.length(); i++)
         buffer[i] = line[i];
+      buffer[i] = '\0';
       len = strlen(buffer);
       unpack();
 
@@ -659,7 +662,6 @@ void Customer ::modify(int mode = 0)
             cout << "Enter the customer Address: ";
             fflush(stdin);
             gets(customer_address);
-
             break;
           case 3:
             cout << "Enter the quantity of Automobile: ";
