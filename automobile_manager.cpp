@@ -17,7 +17,7 @@ void delete_record_automobile()
   file.seekg(0, ios::beg);
   while (getline(file, line))
   {
-    for (i = 0; i < (int)sizeof(line); i++)
+    for (i = 0; i < line.length(); i++)
     {
       if (line[i] == '$')
         flag = 1;
@@ -431,7 +431,7 @@ int Customer ::input()
 
     strftime(time_stamp, sizeof(time_stamp), "%d-%m-%Y", timeinfo);
     string str(time_stamp);
-    for (; i < 24; i++)
+    for (; i < sizeof(time_stamp); i++)
     {
       ordered_date[i] = time_stamp[i];
     }
@@ -447,15 +447,13 @@ void Customer ::output()
   string line;
   Automobile obj;
   int i = 0;
-  for (int i = 0; i < strlen(buffer); i++)
-    buffer[i] = 0;
   file.open("customer.txt", ios::in);
   if (file.is_open())
   {
     while (getline(file, line))
     {
 
-      for (i = 0; i < sizeof(line); i++)
+      for (i = 0; i < line.length(); i++)
         buffer[i] = line[i];
       unpack();
       automobile_orders = auto_calculate(obj, automobile_id);
