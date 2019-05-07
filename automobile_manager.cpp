@@ -759,7 +759,7 @@ void automobile_menu()
   int choice = 0;
   Automobile ob;
   system("CLS");
-  while (choice < 6)
+  while (choice < 6 && choice > 0)
   {
     char key[30];
 
@@ -806,7 +806,7 @@ void customer_menu()
   int flag = 0;
   Customer custmer;
   system("CLS");
-  while (choice < 6)
+  while (choice < 6 && choice > 0)
   {
     cout << "1> Insert A Customer Info " << endl;
     cout << "2> Display all Customer Info " << endl;
@@ -849,7 +849,7 @@ main()
   int choice = 1;
   system("CLS");
   cout << "::::::::::::::::::::::::::::::::::AUTOMOBILE MANAGEMENT SYSTEM::::::::::::::::::::::::::::::::" << endl;
-  while (choice < 3)
+  while (choice < 3 && choice > 0)
   {
     cout << "1> Query Related to Automobile" << endl;
     cout << "2>Query Related to Customers" << endl;
