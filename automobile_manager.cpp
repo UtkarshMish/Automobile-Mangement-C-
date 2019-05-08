@@ -756,7 +756,7 @@ void Customer ::modify(int mode = 0)
 /*:::::::::::::::::::Automobile menu:::::::::::::::::::*/
 void automobile_menu()
 {
-  int choice = 0;
+  int choice = 1;
   Automobile ob;
   system("CLS");
   while (choice < 6 && choice > 0)
@@ -783,7 +783,6 @@ void automobile_menu()
       ob.output();
       break;
     case 3:
-
       cout << "Enter The Automobile ID: " << endl;
       cin >> key;
       ob.search(key, 0);
@@ -802,7 +801,7 @@ void automobile_menu()
 void customer_menu()
 {
   char key[30];
-  int choice = 0;
+  int choice = 1;
   int flag = 0;
   Customer custmer;
   system("CLS");
