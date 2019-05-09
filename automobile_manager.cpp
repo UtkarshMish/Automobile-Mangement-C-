@@ -4,8 +4,22 @@
 #include <string.h>
 #include <sstream>
 #include <ctime>
+#include <ctype.h>
 #include <stdio.h>
 using namespace std;
+int check_input(char val[])
+{
+  int flag = 0;
+  for (int i = 0; i < strlen(val); i++)
+  {
+    if (!isdigit(val[i]))
+    {
+      flag = 1;
+      break;
+    }
+  }
+  return flag;
+}
 void delete_record_automobile()
 {
   ifstream file;
@@ -87,7 +101,7 @@ class Automobile
   char buffer[500];
 
 public:
-  void input();
+  int input();
   void output();
   string search(char key[], int mode);
   void modify(int stocks, int qntity, int mode, char key[]);
@@ -95,6 +109,7 @@ public:
   void unpack();
   void Delete();
   void Write();
+  int check_id(char key[]);
   friend string check(Automobile obj, char key[]);
   friend string auto_calculate(Automobile obj1, char key[]);
   friend string final_calculate(Automobile obj1, char key[]);
@@ -120,6 +135,7 @@ public:
   void unpack();
   void Delete();
   void Write();
+  int check_id(char key[]);
   string check(Automobile ob, char key[])
   {
     return ob.search(key, 2);
@@ -141,21 +157,80 @@ void Automobile::Delete()
 {
   modify(0, 0, 1, NULL);
 }
-
-void Automobile ::input()
+int Automobile::check_id(char key[])
 {
-
+  fstream file;
+  string line;
+  char id[20];
+  file.open("automobile.txt", ios::out | ios::in);
+  while (getline(file, line))
+  {
+    for (int i = 0; i < line.length(); i++)
+    {
+      if (line[i] == '|')
+      {
+        id[i] = '\0';
+        break;
+      }
+      id[i] = line[i];
+    }
+    if (strcmp(id, key) == 0)
+    {
+      return 1;
+    }
+  }
+  return 0;
+}
+int Automobile ::input()
+{
+  int flag = 0;
   cout << "Enter the Automobile ID:" << endl;
   cin >> automobile_id;
+  flag = check_input(automobile_id);
+  if (flag == 1)
+  {
+    system("CLS");
+    cout << "Id or Quantity should be a Number, TRY AGAIN!!!" << endl;
+    return 1;
+  }
+  flag = check_id(automobile_id);
+  if (flag == 1)
+  {
+    system("CLS");
+    cout << "Id Already Exist ! Try again with different id !!!!" << endl;
+    return 1;
+  }
   cout << "Enter the Automobile Name:" << endl;
   fflush(stdin);
   gets(automobile_name);
   cout << "Enter Number of Automobile in Stocks:" << endl;
   cin >> in_stock;
+  flag = check_input(in_stock);
+  if (flag == 1)
+  {
+    system("CLS");
+    cout << "Id or Quantity should be a Number, TRY AGAIN!!!" << endl;
+    return 1;
+  }
   cout << "Enter the Price of the Automobile:" << endl;
   cin >> price;
+  flag = check_input(price);
+  if (flag == 1)
+  {
+    system("CLS");
+    cout << "Id or Quantity should be a Number, TRY AGAIN!!!" << endl;
+    return 1;
+  }
   cout << "Enter the Service Charges:" << endl;
   cin >> service_charge;
+  flag = check_input(service_charge);
+  if (flag == 1)
+  {
+    system("CLS");
+    cout << "Id or Quantity should be a Number, TRY AGAIN!!!" << endl;
+    return 1;
+  }
+  return 0;
 }
 void Automobile ::output()
 {
@@ -407,21 +482,75 @@ void Customer::Delete()
 {
   modify(1);
 }
+int Customer::check_id(char key[])
+{
+  fstream file;
+  string line;
+  char id[20];
+  file.open("customer.txt", ios::out | ios::in);
+  while (getline(file, line))
+  {
+    for (int i = 0; i < line.length(); i++)
+    {
+      if (line[i] == '|')
+      {
+        id[i] = '\0';
+        break;
+      }
+      id[i] = line[i];
+    }
+    if (strcmp(id, key) == 0)
+    {
+      return 1;
+    }
+  }
+  return 0;
+}
 int Customer ::input()
 {
   Automobile obj;
   string in_stock;
-  int stocks, qntity;
+  int stocks, qntity, flag = 0;
   cout << "Enter Customer ID:" << endl;
   cin >> customer_id;
+  flag = check_input(customer_id);
+  if (flag == 1)
+  {
+    system("CLS");
+    cout << "Id or Quantity should be a Number, TRY AGAIN!!!" << endl;
+    return 1;
+  }
+  flag = check_id(customer_id);
+  if (flag == 1)
+  {
+    system("CLS");
+    cout << "Id Already Exist ! Try again with different id !!!!" << endl;
+    return 1;
+  }
+
   cout << "Enter Customer Name:" << endl;
-  cin >> customer_name;
+  fflush(stdin);
+  gets(customer_name);
   cout << "Enter Customer Address:" << endl;
-  cin >> customer_address;
+  gets(customer_address);
   cout << "Enter Automobile ID to Book: " << endl;
   cin >> automobile_id;
+  flag = check_input(automobile_id);
+  if (flag == 1)
+  {
+    system("CLS");
+    cout << "Id or Quantity should be a Number, TRY AGAIN!!!" << endl;
+    return 1;
+  }
   cout << "Enter the quantity: " << endl;
   cin >> quantity;
+  flag = check_input(quantity);
+  if (flag == 1)
+  {
+    system("CLS");
+    cout << "Id or Quantity should be a Number, TRY AGAIN!!!" << endl;
+    return 1;
+  }
   in_stock = check(obj, automobile_id);
 
   if (in_stock == "Details not present")
@@ -756,7 +885,7 @@ void Customer ::modify(int mode = 0)
 /*:::::::::::::::::::Automobile menu:::::::::::::::::::*/
 void automobile_menu()
 {
-  int choice = 1;
+  int choice = 1, flag = 0;
   Automobile ob;
   system("CLS");
   while (choice < 6 && choice > 0)
@@ -774,9 +903,12 @@ void automobile_menu()
     switch (choice)
     {
     case 1:
-      ob.input();
-      ob.pack();
-      ob.Write();
+      flag = ob.input();
+      if (!flag)
+      {
+        ob.pack();
+        ob.Write();
+      }
       break;
     case 2:
 
