@@ -190,7 +190,7 @@ int Automobile ::input()
   if (flag == 1)
   {
     system("CLS");
-    cout << "Id or Quantity should be a Number, TRY AGAIN!!!" << endl;
+    cout << "AutomobileId should be a Number, TRY AGAIN!!!" << endl;
     return 1;
   }
   flag = check_id(automobile_id);
@@ -209,7 +209,7 @@ int Automobile ::input()
   if (flag == 1)
   {
     system("CLS");
-    cout << "Id or Quantity should be a Number, TRY AGAIN!!!" << endl;
+    cout << "Stocks should be a Number, TRY AGAIN!!!" << endl;
     return 1;
   }
   cout << "Enter the Price of the Automobile:" << endl;
@@ -218,7 +218,7 @@ int Automobile ::input()
   if (flag == 1)
   {
     system("CLS");
-    cout << "Id or Quantity should be a Number, TRY AGAIN!!!" << endl;
+    cout << "Price should be a Number, TRY AGAIN!!!" << endl;
     return 1;
   }
   cout << "Enter the Service Charges:" << endl;
@@ -227,7 +227,7 @@ int Automobile ::input()
   if (flag == 1)
   {
     system("CLS");
-    cout << "Id or Quantity should be a Number, TRY AGAIN!!!" << endl;
+    cout << "ServiceCharge should be a Number, TRY AGAIN!!!" << endl;
     return 1;
   }
   return 0;
@@ -517,7 +517,7 @@ int Customer ::input()
   if (flag == 1)
   {
     system("CLS");
-    cout << "Id or Quantity should be a Number, TRY AGAIN!!!" << endl;
+    cout << "CustomerId should be a Number, TRY AGAIN!!!" << endl;
     return 1;
   }
   flag = check_id(customer_id);
@@ -539,7 +539,7 @@ int Customer ::input()
   if (flag == 1)
   {
     system("CLS");
-    cout << "Id or Quantity should be a Number, TRY AGAIN!!!" << endl;
+    cout << "AutomobileId should be a Number, TRY AGAIN!!!" << endl;
     return 1;
   }
   cout << "Enter the quantity: " << endl;
@@ -548,7 +548,7 @@ int Customer ::input()
   if (flag == 1)
   {
     system("CLS");
-    cout << "Id or Quantity should be a Number, TRY AGAIN!!!" << endl;
+    cout << "Quantity should be a Number, TRY AGAIN!!!" << endl;
     return 1;
   }
   in_stock = check(obj, automobile_id);
