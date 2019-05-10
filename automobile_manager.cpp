@@ -7,6 +7,68 @@
 #include <ctype.h>
 #include <stdio.h>
 using namespace std;
+class Automobile
+{
+  char automobile_id[20];
+  char automobile_name[20];
+  char in_stock[20];
+  char price[20], service_charge[20];
+  char buffer[500];
+
+public:
+  int input();
+  void output();
+  string search(char key[], int mode);
+  void modify(int stocks, int qntity, int mode, char key[]);
+  void pack();
+  void unpack();
+  void Delete();
+  void Write();
+  int check_id(char key[]);
+  friend string check(Automobile obj, char key[]);
+  friend string auto_calculate(Automobile obj1, char key[]);
+  friend string final_calculate(Automobile obj1, char key[]);
+  friend void change_Stock(Automobile obj, int stocks, int qntity, char key[]);
+};
+class Customer
+{
+  char customer_id[20];
+  char customer_name[20];
+  char customer_address[25];
+  string automobile_orders;
+  char quantity[5];
+  char automobile_id[20];
+  char ordered_date[25];
+  char buffer[500];
+
+public:
+  int input();
+  void output();
+  int search(char key[]);
+  void modify(int mode);
+  void pack();
+  void unpack();
+  void Delete();
+  void Write();
+  int check_id(char key[]);
+  string check(Automobile ob, char key[])
+  {
+    return ob.search(key, 2);
+  }
+  string auto_calculate(Automobile obj1, char key[])
+  {
+    return obj1.search(key, 3);
+  }
+  friend void change_Stock(Automobile obj, int stocks, int qntity, char key[])
+  {
+    obj.modify(stocks, qntity, 2, key);
+  }
+  string final_calculate(Automobile obj1, char key[])
+  {
+    return obj1.search(key, 1);
+  }
+};
+// ::::::::::::::::::DELETE AND CHECK INPUT FUNCTION ON FILES:::::::::::::::::::::::::::::
 int check_input(char val[])
 {
   int flag = 0;
@@ -92,67 +154,7 @@ void delete_record_customer()
   remove("customer.txt");
   rename("temp.txt", "customer.txt");
 }
-class Automobile
-{
-  char automobile_id[20];
-  char automobile_name[20];
-  char in_stock[20];
-  char price[20], service_charge[20];
-  char buffer[500];
-
-public:
-  int input();
-  void output();
-  string search(char key[], int mode);
-  void modify(int stocks, int qntity, int mode, char key[]);
-  void pack();
-  void unpack();
-  void Delete();
-  void Write();
-  int check_id(char key[]);
-  friend string check(Automobile obj, char key[]);
-  friend string auto_calculate(Automobile obj1, char key[]);
-  friend string final_calculate(Automobile obj1, char key[]);
-  friend void change_Stock(Automobile obj, int stocks, int qntity, char key[]);
-};
-class Customer
-{
-  char customer_id[20];
-  char customer_name[20];
-  char customer_address[25];
-  string automobile_orders;
-  char quantity[5];
-  char automobile_id[20];
-  char ordered_date[25];
-  char buffer[500];
-
-public:
-  int input();
-  void output();
-  int search(char key[]);
-  void modify(int mode);
-  void pack();
-  void unpack();
-  void Delete();
-  void Write();
-  int check_id(char key[]);
-  string check(Automobile ob, char key[])
-  {
-    return ob.search(key, 2);
-  }
-  string auto_calculate(Automobile obj1, char key[])
-  {
-    return obj1.search(key, 3);
-  }
-  friend void change_Stock(Automobile obj, int stocks, int qntity, char key[])
-  {
-    obj.modify(stocks, qntity, 2, key);
-  }
-  string final_calculate(Automobile obj1, char key[])
-  {
-    return obj1.search(key, 1);
-  }
-};
+// ::::::::::::::::::::AUTOMOBILE CLASS METHODS:::::::::::::::::::::::::
 void Automobile::Delete()
 {
   modify(0, 0, 1, NULL);
